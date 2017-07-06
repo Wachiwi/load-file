@@ -1,0 +1,10 @@
+version: 1.0
+shards:
+  commander:
+    github: mrrooijen/commander
+    version: 0.3.3
+
+  gitlab:
+    github: icyleaf/gitlab.cr
+    commit: 9947476660cb2e1de3673dce7fdfea45ac2d59bc
+
