@@ -1,10 +1,22 @@
 version: 1.0
 shards:
-  commander:
-    github: mrrooijen/commander
-    version: 0.3.3
+  callback:
+    github: mosop/callback
+    version: 0.6.3
+
+  cli:
+    github: mosop/cli
+    version: 0.6.10
 
   gitlab:
     github: icyleaf/gitlab.cr
     commit: 9947476660cb2e1de3673dce7fdfea45ac2d59bc
+
+  optarg:
+    github: mosop/optarg
+    version: 0.5.8
+
+  string_inflection:
+    github: mosop/string_inflection
+    version: 0.2.1
 

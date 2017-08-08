@@ -9,13 +9,12 @@ targets:
     main: src/load-file.cr
 
 dependencies:
-  commander:
-    github: mrrooijen/commander
-    version: ~> 0.3.3
+  cli:
+    github: mosop/cli
   gitlab:
     github: icyleaf/gitlab.cr
     branch: master
-      
-crystal: 0.22.0
+
+crystal: 0.23.0
 
 license: MIT
