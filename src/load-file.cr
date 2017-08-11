@@ -57,13 +57,24 @@ module LoadFile
       end
 
       gitlab = Gitlab.client "#{instance}api/v3", options.token
+
       if gitlab.nil?
         puts "[Error] Could not connect to instance with token!"
         Process.exit 1
       end
 
-      projects = gitlab.projects
+      projects : (JSON::Any | Nil)
       project = nil
+
+      begin
+        projects = gitlab.projects
+        if projects.nil?
+          Process.exit 1
+        end
+      rescue
+        puts "[Error] Could not connect to '#{instance}' with token".colorize :red
+        Process.exit 1
+      end
 
       projects.each do |proj|
         if proj["path_with_namespace"] == args.project
