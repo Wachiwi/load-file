@@ -1,1 +1,11 @@
 language: crystal
+before_install: crystal deps
+install: crystal build --release src/*.cr
+deploy:
+  provider: releases
+  api_key:
+    secure: GITHUB_TOKEN
+  file: "load-file"
+  skip_cleanup: true
+  on:
+    branch: master
