@@ -4,7 +4,6 @@ require "cli"
 require "colorize"
 
 module LoadFile
-  #
   class LoadFile < Cli::Command
     version "0.1.0"
 
@@ -25,26 +24,20 @@ module LoadFile
       help
     end
 
-    # 2. Configuration
-    #      - Check configuration (only user-based)
-    #      - Parse configuration
-    #      - Validate configuration
-    #      - Merge with defaults
     def init_config
-      # use a ~/.lf_cfg file
       @log.debug("Loaded config")
     end
 
     def run
       if options.token?.nil?
-        puts "[ERROR] Token cannot be empty".colorize :red
+        print "[ERROR] Token cannot be empty".colorize :red
         Process.exit 1
       end
 
       # check_project_arg args.project
       # check_file_arg args.file
       if args.project.empty? || args.file.empty?
-        puts "[ERROR] project and file argument needs to be set".colorize :red
+        print "[ERROR] project and file argument needs to be set".colorize :red
         Process.exit 1
       end
 
@@ -59,7 +52,7 @@ module LoadFile
       gitlab = Gitlab.client "#{instance}api/v3", options.token
 
       if gitlab.nil?
-        puts "[Error] Could not connect to instance with token!"
+        print "[Error] Could not connect to instance with token!"
         Process.exit 1
       end
 
@@ -69,10 +62,11 @@ module LoadFile
       begin
         projects = gitlab.projects
         if projects.nil?
+          print "[Error] Could not find any projects".colorize :red
           Process.exit 1
         end
       rescue
-        puts "[Error] Could not connect to '#{instance}' with token".colorize :red
+        print "[Error] Could not connect to '#{instance}' with token".colorize :red
         Process.exit 1
       end
 
@@ -84,16 +78,18 @@ module LoadFile
       end
 
       if project.nil?
-        puts "[Error] Could not find project named '#{args.project}'!".colorize :red
+        print "[Error] Could not find project named '#{args.project}'!".colorize :red
         Process.exit 1
       end
 
       begin
         file = gitlab.get("/projects/#{project["id"]}/repository/files/#{(URI.escape args.file).gsub '.', "%2E"}/raw?ref=#{options.ref}")
 
-        pp file.body
+        print "#{file.body}"
+        Process.exit 0
       rescue Gitlab::Error::NotFound
-        p "[Error] Could not find the file '#{args.file}' at ref '#{options.ref}'".colorize :red
+        print "[Error] Could not find the file '#{args.file}' at ref '#{options.ref}'".colorize :red
+        Process.exit 1
       end
     end
   end
