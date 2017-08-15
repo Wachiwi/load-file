@@ -1,11 +1,15 @@
 language: crystal
+addons:
+  apt:
+    packages:
+      - clang-3.9
 before_install: crystal deps
 install: crystal build --release src/*.cr
 deploy:
   provider: releases
   api_key:
     secure: GITHUB_TOKEN
-  file: "load-file"
-  skip_cleanup: true
-  on:
-    branch: master
+    file: "load-file"
+    skip_cleanup: true
+    on:
+      branch: master
