@@ -1,8 +1,9 @@
 language: crystal
+dist: trusty
+sudo: false
 addons:
   apt:
     packages:
-      - clang-3.9
 before_install: crystal deps
 install: crystal build --release src/*.cr
 deploy:
